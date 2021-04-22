@@ -1,0 +1,26 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block content_area %}
+    <main class="landing">
+        <article class="main-article">
+            <header class="landing-header">
+                {% if page.header.main_image %}<img class="landing-image size-xs crop-round" src="{{ page.header.main_image|slice(1) }}">{% endif %}
+                {% if page.header.title or page.header.title_override %}<h1 class="landing-title">{{ page.header.title_override ? page.header.title_override : (page.header.title ? page.header.title) }}</h1>{% endif %}
+                {% if page.header.tagline %}<div class="landing-tagline">{{ page.header.tagline }}</div>{% endif %}
+            </header>
+            <section class="landing-body">
+                {% if page.content %}
+                    {{ page.content|raw }}
+                    <br>
+                {% endif %}
+                {% if page.header.buttons %}
+                    {% for button in page.header.buttons %}
+                        <a href="{{ button.link }}">
+                            <button{{ (button.style != 'primary') ? ' class=button-' ~ button.style|raw }}>{{ button.text }}</button>
+                        </a>
+                    {% endfor %}
+                {% endif %}
+            </section>
+        </article>
+    </main>
+{% endblock %}

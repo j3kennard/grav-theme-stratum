@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="{{ (grav.language.getActive ?: grav.config.site.default_lang)|e }}">
+<head>
+    {% block head %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {% include 'partials/metadata.html.twig' %}
+
+        {% include 'partials/favicon.html.twig' %}
+    {% endblock head %}
+
+    {% block stylesheets %}
+        {% do assets.addCss('theme://styles/main.css', 100) %}
+        {% set theme_mode = (theme.dark_mode_enabled) ? 'dark.css' : 'light.css' %}
+        {% do assets.addCss('theme://styles/' ~ theme_mode, 99) %}
+        {% do assets.addCss('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap', 98) %}
+        {% do assets.addCss('https://code.cdn.mozilla.net/fonts/fira.css', 97) %}
+    {% endblock %}
+
+    {% block javascripts %}
+        {% do assets.addJs('theme://scripts/main.js', {'priority': 90, 'group': 'bottom'}) %}
+        {% do assets.addJs('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js', {'priority': 89, 'group': 'bottom'}) %}
+    {% endblock %}
+
+    {% block assets deferred %}
+        {{ assets.css()|raw }}
+        {{ assets.js()|raw }}
+    {% endblock %}
+
+    <title>{% if header.title %}{{ header.title|e }} | {% endif %}{{ site.title|e }}</title>
+</head>
+
+<body{% if page.template() == 'landing' and page.header.background_image %} style="background: url('{{ page.header.background_image|slice(1) }}') no-repeat center fixed; background-size: cover;"{% endif %}>
+    <noscript>
+        <div id="noscript-error">
+            Many site features aren't working because you have JavaScript disabled!
+        </div>
+    </noscript>
+
+    {% block header %}
+        <header id="page-header">
+            {% include 'partials/header_navbar.html.twig' %}
+        </header>
+    {% endblock %}
+
+    {% block content_area %}{% endblock %}
+
+    {% block footer %}
+        <footer id="page-footer">
+            {% if page.template() != 'landing' %}
+                {% include 'partials/footer_sections.html.twig' %}
+                <div id="return-to-top">
+                    <button id="return-to-top-button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });"><i class="fa fa-arrow-up"></i></button>
+                </div>
+            {% endif %}
+            {% block footer_copyright %}
+                <section id="page-footer-copyright">
+                    {% include 'partials/footer_copyright.html.twig' %}
+                </section>
+            {% endblock %}
+        </footer>
+    {% endblock %}
+
+    {{ assets.js('bottom')|raw }}
+</body>
+</html>

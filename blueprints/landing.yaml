@@ -1,0 +1,64 @@
+title: Landing
+extends@:
+    type: default
+    context: blueprints://pages
+
+form:
+    fields:
+        tabs:
+            fields:
+                stratum:
+                    type: tab
+                    title: Stratum
+                    fields:
+                        header.general_section:
+                            type: section
+                            title: General
+                            underline: true
+                        header.background_image:
+                            type: mediapicker
+                            label: Background Image
+                            toggleable: true
+                            default: /user/themes/stratum/images/erik-mclean-1vjYvrwR4ks-unsplash.jpg
+                        header.main_image:
+                            type: mediapicker
+                            label: Main Image
+                            help: A main image associated with this page (shown in the page header, feeds, etc.)
+                            toggleable: true
+                        header.title_override:
+                            type: text
+                            label: Title Override
+                            help: A custom <h1> title for this page (overrides page title)
+                            toggleable: true
+                        header.tagline:
+                            type: text
+                            label: Tagline
+                            help: A tagline to be shown under the title of this page
+                            toggleable: true
+                        header.buttons:
+                            type: list
+                            label: Buttons
+                            help: Call-to-action buttons shown at the bottom of the landing card
+                            style: vertical
+                            collapsed: true
+                            fields:
+                                .text:
+                                    type: text
+                                    label: Text
+                                .link:
+                                    type: text
+                                    label: Link
+                                    placeholder: '''https://github.com'', ''docs'', etc.'
+                                .style:
+                                    type: select
+                                    label: Style
+                                    size: long
+                                    classes: fancy
+                                    options:
+                                        primary: 'Primary'
+                                        secondary: 'Secondary'
+                                        info: 'Info'
+                                        success: 'Success'
+                                        caution: 'Caution'
+                                        warning: 'Warning'
+                                        danger: 'Danger'

@@ -1,0 +1,73 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block content_area %}
+    <div class="content-grid">
+        {% set sidebar_enabled = (page.header.sidebar.enabled != null) ? (page.header.sidebar.enabled == 'yes') : (theme.sidebar.enabled == 'yes')  %}
+        {% set main_class = (sidebar_enabled) ? 'sidebar' : 'full-width' %}
+        <main class="{{ main_class }}">
+            <article class="main-article">
+                {% if page.header.title or page.header.description or page.header.main_image or page.header.authors or page.header.date %}
+                    <header class="post-header">
+                        {% if page.header.title %}<h1>{{ page.header.title }}</h1>{% endif %}
+                        {% if page.header.description %}<div class="post-description">{{ page.header.description }}</div>{% endif %}
+                        {% if page.header.main_image %}<img class="size-fw" src="{{ page.header.main_image|slice(1) }}">{% endif %}
+                        {% if page.header.authors or page.header.date %}
+                            <div class="post-details">
+                                {% if page.header.authors %}
+                                    <p>{% for author, website in page.header.authors %}{% if website %}<a href="{{ website }}">{% endif %}<b>{{ author|e }}</b>{% if website %}</a>{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+                                {% endif %}
+                                {% if page.header.date %}
+                                    <p><b>{{ page.header.date|e|date("j F Y") }}</b> at <b>{{ page.header.date|e|date("g:ia") }}</b></p>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </header>
+                {% endif %}
+                {% if page.content %}
+                    <hr>
+                    <section>
+                        {{ page.content|raw }}
+                    </section>
+                {% endif %}
+            </article>
+            {% for p in page.collection %}
+                {% if not p.active
+                and not p.home
+                and p.route != config.plugins.error.routes.404 %}
+                    <article class="main-article post-preview">
+                        <header class="post-preview-header">
+                            <a class="post-preview-link" href="{{ p.url }}">
+                                <h2 style="margin-top: 0;">{{ p.header.title }}</h2>
+                            </a>
+                            {% if p.header.authors or p.header.date %}
+                                <div class="post-details">
+                                    {% if p.header.authors %}{% for author, website in p.header.authors %}<b>{{ author|e }}</b>{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}
+                                    <br>
+                                    {% if p.header.date %}{{ p.header.date|e|date("Y-m-d H:i") }}{% endif %}
+                                </div>
+                            {% endif %}
+                        </header>
+                        {% set preview_summary = (p.header.description) ? p.header.description : p.summary|raw %}
+                        <section class="post-preview-summary">
+                            {% if preview_summary %}<p>{{ preview_summary|raw }}</p>{% endif %}
+                            <a class="post-preview-link" href="{{ p.url }}">
+                                <button>{{ page.header.view_post_button.text ? page.header.view_post_button.text : 'View Post →' }}</button>
+                            </a>
+                        </section>
+                        {% set preview_image = (p.header.main_image) ? p.header.main_image|slice(1) : (p.media.images|first).url|e %}
+                        {% if preview_image %}
+                            <section class="post-preview-image">
+                                <a class="post-preview-link" href="{{ p.url }}">
+                                    <img class="size-fw" src="{{ preview_image }}">
+                                </a>
+                            </section>
+                        {% endif %}
+                    </article>
+                {% endif %}
+            {% endfor %}
+        </main>
+        {% if sidebar_enabled %}
+            {% include 'partials/sidebar.html.twig' %}
+        {% endif %}
+    </div>
+{% endblock %}

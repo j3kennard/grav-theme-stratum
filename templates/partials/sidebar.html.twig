@@ -1,0 +1,26 @@
+{% set position = (page.header.sidebar.position != null) ? page.header.sidebar.position : theme.sidebar.position %}
+<aside class="{{ 'sidebar-' ~ position }}">
+    {% set sections_position = (page.header.sidebar.sections_position != null) ? page.header.sidebar.sections_position : theme.sidebar.sections_position %}
+    {% if sections_position == 'page_before_theme' and page.header.sidebar.sections %}
+        {% for s in page.header.sidebar.sections %}
+            <section class="sidebar-section">
+                <h3>{{ s.title|e }}</h3>
+                {{ s.content|raw }}
+            </section>
+        {% endfor %}
+    {% endif %}
+    {% for s in (sections_position == 'page_override_theme' and page.header.sidebar.sections) ? page.header.sidebar.sections : theme.sidebar.sections %}
+        <section class="sidebar-section">
+            <h3>{{ s.title|e }}</h3>
+            {{ s.content|raw }}
+        </section>
+    {% endfor %}
+    {% if sections_position == 'theme_before_page' and page.header.sidebar.sections %}
+        {% for s in page.header.sidebar.sections %}
+            <section class="sidebar-section">
+                <h3>{{ s.title|e }}</h3>
+                {{ s.content|raw }}
+            </section>
+        {% endfor %}
+    {% endif %}
+</aside>

@@ -1,0 +1,29 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block content_area %}
+    <div class="content-grid">
+        {% set sidebar_enabled = (page.header.sidebar.enabled != null) ? (page.header.sidebar.enabled == 'yes') : (theme.sidebar.enabled == 'yes')  %}
+        {% set main_class = (sidebar_enabled) ? 'sidebar' : 'full-width' %}
+        <main class="{{ main_class }}">
+            <article class="main-article">
+                <header class="post-header">
+                    {% if page.header.title %}<h1>{{ page.header.title }}</h1>{% endif %}
+                    <div class="post-details">
+                        {% if page.header.date %}
+                            <p><b>{{ page.header.date|e|date("j F Y") }}</b> at <b>{{ page.header.date|e|date("g:ia") }}</b></p>
+                        {% endif %}
+                    </div>
+                </header>
+                {% if page.content %}
+                    <hr>
+                    <section>
+                        {{ page.content|raw }}
+                    </section>
+                {% endif %}
+            </article>
+        </main>
+        {% if sidebar_enabled %}
+            {% include 'partials/sidebar.html.twig' %}
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block content_area %}
+    <div class="content-grid">
+        {% set sidebar_enabled = (page.header.sidebar.enabled != null) ? (page.header.sidebar.enabled == 'yes') : (theme.sidebar.enabled == 'yes')  %}
+        {% set main_class = (sidebar_enabled) ? 'sidebar' : 'full-width' %}
+        <main class="{{ main_class }}">
+            <article class="main-article">
+                {% if page.header.title or page.header.description or page.header.main_image or page.header.authors or page.header.date %}
+                    <header class="post-header">
+                        {% if page.header.title %}<h1>{{ page.header.title }}</h1>{% endif %}
+                        {% if page.header.description %}<div class="post-description">{{ page.header.description }}</div>{% endif %}
+                        {% if page.header.main_image %}<img class="size-fw" src="{{ page.header.main_image|slice(1) }}">{% endif %}
+                        {% if page.header.authors or page.header.date %}
+                            <div class="post-details">
+                                {% if page.header.authors %}
+                                    <p>{% for author, website in page.header.authors %}{% if not loop.first and not loop.last %}, {% elseif loop.last %}{{ (loop.length > 2) ? ',' }}{{ (loop.length > 1) ? ' and ' }}{% endif %}{% if website %}<a href="{{ website }}">{% endif %}<b>{{ author|e }}</b>{% if website %}</a>{% endif %}{% endfor %}</p>
+                                {% endif %}
+                                {% if page.header.date %}
+                                    <p><b>{{ page.header.date|e|date("j F Y") }}</b> at <b>{{ page.header.date|e|date("g:ia") }}</b></p>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </header>
+                {% endif %}
+                {% if page.content %}
+                    <hr>
+                    <section>
+                        {{ page.content|raw }}
+                    </section>
+                {% endif %}
+            </article>
+        </main>
+        {% if sidebar_enabled %}
+            {% include 'partials/sidebar.html.twig' %}
+        {% endif %}
+    </div>
+{% endblock %}

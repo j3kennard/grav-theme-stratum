@@ -1,0 +1,59 @@
+{% macro loop(pages) %}
+    {% for p in pages.children.visible %}
+        {% set page_active_class = (p.active) ? ' navbar-item-active' : '' %}
+        {% if p.children.visible.count > 0 %}
+            <div class="navbar-dropdown">
+                <a class="navbar-item{{ page_active_class|e }}" href="{{ p.url|e }}">
+                    {% if p.header.icon %}<i class="fa fa-{{ p.header.icon|e }}"></i>{% endif %}
+                    {{ p.menu|e }} <i class="fa fa-caret-down"></i>
+                </a>
+                <div class="navbar-dropdown-content">
+                    {{ _self.loop(p) }}
+                </div>
+            </div>
+        {% else %}
+            <a class="navbar-item{{ page_active_class|e }}" href="{{ p.url|e }}">
+                {% if p.header.icon %}<i class="fa fa-{{ p.header.icon|e }}"></i>{% endif %}
+                {{ p.menu|e }}
+            </a>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+<div class="navbar">
+    <nav class="navbar-elements">
+        <div class="navbar-brand">
+            <a href="{{ home_url }}">
+                {% if theme.custom_logo %}
+                    {% set logo_file = (theme.custom_logo|first).name %}
+                    <img class="navbar-logo" src="{{ url('theme://images/custom-logos/' ~ logo_file) }}">
+                {% else %}
+                    <img class="navbar-logo" src="{{ url('theme://images/Logo_White-Tr_256.png') }}">
+                {% endif %}
+            </a>
+
+            <a class="navbar-title" href="{{ home_url }}">{{ config.site.title|e }}</a>
+        </div>
+        <div class="navbar-toggler">
+            <span class="navbar-toggle-button"><i class="fas fa-bars"></i></span>
+        </div>
+        <div class="navbar-items">
+            {% if theme.general.navbar_dropdown.enabled %}
+                {{ _self.loop(pages) }}
+            {% else %}
+                {% for page in pages.children.visible %}
+                    <a class="navbar-item" href="{{ page.url|e }}">
+                        {% if page.header.icon %}<i class="fa fa-{{ page.header.icon|e }}"></i>{% endif %}
+                        {{ page.menu|e }}
+                    </a>
+                {% endfor %}
+            {% endif %}
+            {% for mitem in site.menu %}
+                <a class="navbar-item" href="{{ mitem.url|e }}">
+                    {% if mitem.icon %}<i class="fa fa-{{ mitem.icon|e }}"></i>{% endif %}
+                    {{ mitem.text|e }}
+                </a>
+            {% endfor %}
+        </div>
+    </nav>
+</div>

@@ -1,0 +1,153 @@
+title: Feed
+extends@:
+    type: default
+    context: blueprints://pages
+
+form:
+    fields:
+        tabs:
+            fields:
+                stratum:
+                    type: tab
+                    title: Stratum
+                    fields:
+                        header.general_section:
+                            type: section
+                            title: General
+                            underline: true
+                        header.main_image:
+                            type: mediapicker
+                            label: Main Image
+                            help: A main image associated with this page (shown in the page header, feeds, etc.)
+                            toggleable: true
+                        header.tagline:
+                            type: text
+                            label: Tagline
+                            help: A tagline to be shown under the title of this page
+                            toggleable: true
+                        header.header_text_color:
+                            type: colorpicker
+                            label: Header Text Color
+                            help: Color for the title, tagline, and content of the header of this page
+                            toggleable: true
+
+                        header.feed_section:
+                            type: section
+                            title: Feed
+                            underline: true
+                        header.content.items:
+                            type: textarea
+                            yaml: true
+                            label: Items
+                            default: '@self.children'
+                            validate:
+                                type: yaml
+                        header.content.order.by:
+                            type: select
+                            label: Order By
+                            default: date
+                            options:
+                                folder: Folder
+                                title: Title
+                                date: Date
+                                default: Default
+                        header.content.order.dir:
+                            type: select
+                            label: Order Direction
+                            default: desc
+                            options:
+                                asc: Ascending
+                                desc: Descending
+                        header.view_post_button.text:
+                            type: text
+                            label: View Post Button Text
+                            help: Custom text for the button linking to the individual posts
+                            default: 'View Post →'
+                            toggleable: true
+                        
+                        header.sidebar_section:
+                            type: section
+                            title: Sidebar
+                            underline: true
+                        header.sidebar.enabled:
+                            type: toggle
+                            label: Enable Sidebar
+                            help: Whether or not to enable the sidebar (with its theme or page-specific sidebar sections)
+                            toggleable: true
+                            highlight: yes
+                            default: yes
+                            options:
+                                yes: Yes
+                                no: No
+                        header.sidebar.position:
+                            type: radio
+                            label: Sidebar Position
+                            help: Position of the sidebar on the page
+                            toggleable: true
+                            default: left
+                            options:
+                                left: Left
+                                right: Right
+                        header.sidebar.sections:
+                            type: list
+                            label: Sections
+                            help: Page-specific text and HTML sidebar sections
+                            toggleable: true
+                            style: vertical
+                            collapsed: true
+                            fields:
+                                .title:
+                                    type: text
+                                    label: Title
+                                .content:
+                                    type: editor
+                                    label: Content
+                        header.sidebar.sections_position:
+                            type: radio
+                            label: Section Positioning
+                            help: Position of theme and page-specific sidebar sections in relation to each other
+                            toggleable: true
+                            default: page_before_theme
+                            options:
+                                page_before_theme: Page sections before theme sections
+                                theme_before_page: Page sections after theme sections
+                                page_override_theme: Page sections override theme sections
+
+                        header.footer_section:
+                            type: section
+                            title: Footer
+                            underline: true
+                        header.footer.sections_enabled:
+                            type: toggle
+                            label: Enable Sections
+                            help: Whether or not to enable any theme or page-specific footer sections
+                            toggleable: true
+                            highlight: yes
+                            default: yes
+                            options:
+                                yes: Yes
+                                no: No
+                        header.footer.sections:
+                            type: list
+                            label: Sections
+                            help: Page-specific text and HTML footer sections
+                            toggleable: true
+                            style: vertical
+                            collapsed: true
+                            fields:
+                                .title:
+                                    type: text
+                                    label: Title
+                                .content:
+                                    type: editor
+                                    label: Content
+                        header.footer.sections_position:
+                            type: radio
+                            label: Section Positioning
+                            help: Position of theme and page-specific footer sections in relation to each other
+                            toggleable: true
+                            default: page_before_theme
+                            options:
+                                page_before_theme: Page sections before theme sections
+                                theme_before_page: Page sections after theme sections
+                                page_override_theme: Page sections override theme sections

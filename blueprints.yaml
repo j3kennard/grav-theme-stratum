@@ -1,0 +1,152 @@
+name: Stratum
+slug: stratum
+type: theme
+version: 0.1-p1 (beta)
+description: A port of Stratum made for the Grav CMS
+icon: bars
+author:
+    name: Jeremy Kennard
+    email: hello@j3kennard.com
+homepage: https://github.com/j3kennard/grav-theme-stratum
+demo: https://demo.j3kennard.com/grav-theme-stratum
+keywords: grav, theme, etc
+bugs: https://github.com/j3kennard/grav-theme-stratum/issues
+readme: https://github.com/j3kennard/grav-theme-stratum/blob/main/README.md
+license: MIT
+
+dependencies:
+    - { name: grav, version: '>=1.6.0' }
+
+form:
+    validation: loose
+    fields:
+        general_section:
+            type: section
+            title: General
+            underline: true
+        custom_logo:
+            type: file
+            label: Custom Logo
+            help: Custom logo that overrides the default theme logo
+            size: large
+            destination: 'theme://images/custom-logos'
+            multiple: false
+            accept:
+                - image/*
+        custom_icons_enabled:
+            type: toggle
+            label: Enable Custom Icons
+            help: Custom icons that override the default theme icons
+            description: Use https://favicomatic.com to generate custom icons, and place in the theme folder 'images/custom-icons'. Then enable this.
+            highlight: 0
+            default: 0
+            options:
+                1: Yes
+                0: No
+            validate:
+                type: bool
+        dark_mode_enabled:
+            type: toggle
+            label: Enable Dark Mode
+            help: A dark-friendly version of the theme
+            highlight: 0
+            default: 0
+            options:
+                1: Yes
+                0: No
+            validate:
+                type: bool
+        navbar_dropdown_enabled:
+            type: toggle
+            label: Enable Navbar Dropdowns
+            help: Whether or not child pages should be shown for page navbar items
+            highlight: 1
+            default: 1
+            options:
+                1: Yes
+                0: No
+            validate:
+                type: bool
+
+        sidebar_section:
+            type: section
+            title: Sidebar
+            underline: true
+        sidebar.enabled:
+            type: toggle
+            label: Enable Sidebar
+            help: Whether or not to enable the sidebar (with its theme or page-specific sidebar sections)
+            highlight: yes
+            default: yes
+            options:
+                yes: Yes
+                no: No
+        sidebar.position:
+            type: radio
+            label: Sidebar Position
+            help: Position of the sidebar on the page
+            default: left
+            options:
+                left: Left
+                right: Right
+        sidebar.sections:
+            type: list
+            label: Sections
+            help: Page-specific text and HTML sidebar sections
+            style: vertical
+            collapsed: true
+            fields:
+                .title:
+                    type: text
+                    label: Title
+                .content:
+                    type: editor
+                    label: Content
+        sidebar.sections_position:
+            type: radio
+            label: Section Positioning
+            help: Position of theme and page-specific sidebar sections in relation to each other
+            default: page_before_theme
+            options:
+                page_before_theme: Page sections before theme sections
+                theme_before_page: Page sections after theme sections
+                page_override_theme: Page sections override theme sections
+
+
+        footer_section:
+            type: section
+            title: Footer
+            underline: true
+        footer.sections_enabled:
+            type: toggle
+            label: Enable Sections
+            help: Whether or not to enable any theme or page-specific footer sections
+            highlight: 1
+            default: 1
+            options:
+                1: Yes
+                0: No
+            validate:
+                type: bool
+        footer.sections:
+            type: list
+            label: Sections
+            help: Text and HTML sections shown in the footer of default and feed pages
+            style: vertical
+            collapsed: true
+            fields:
+                .title:
+                    type: text
+                    label: Title
+                .content:
+                    type: editor
+                    label: Content
+        footer.sections_position:
+            type: radio
+            label: Section Positioning
+            help: Position of theme and page-specific footer sections in relation to each other
+            default: page_before_theme
+            options:
+                page_before_theme: Page sections before theme sections
+                theme_before_page: Page sections after theme sections
+                page_override_theme: Page sections override theme sections

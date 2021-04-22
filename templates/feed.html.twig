@@ -1,0 +1,60 @@
+{% extends 'partials/base.html.twig' %}
+
+{% block content_area %}
+    <div class="content-grid">
+        {% set sidebar_enabled = (page.header.sidebar.enabled != null) ? (page.header.sidebar.enabled == 'yes') : (theme.sidebar.enabled == 'yes')  %}
+        {% set main_class = (sidebar_enabled) ? 'sidebar' : 'full-width' %}
+        <main class="{{ main_class }}">
+            {% if page.header.title or page.header.description or page.content %}
+                {% set header_image = (page.header.main_image) ? page.header.main_image|slice(1) : (page.media.images|first).url|e %}
+                <header class="feed-header" {% if header_image or page.header.header_text_color %}style="{% if header_image %}background: url('{{ header_image }}') no-repeat center; background-position: absolute; background-size: cover; {% endif %}{{ (page.header.header_text_color) ? 'color: ' ~ page.header.header_text_color }}"{% endif %}>
+                    {% if page.header.title %}<h1>{{ page.header.title }}</h1>{% endif %}
+                    {% if page.header.tagline %}<div class="feed-tagline">{{ page.header.tagline }}</div>{% endif %}
+                    {% if page.content %}
+                        <section>
+                            {{ page.content|raw }}
+                        </section>
+                    {% endif %}
+                </header>
+            {% endif %}
+            {% for p in page.collection %}
+                {% if not p.active
+                and not p.home
+                and p.route != config.plugins.error.routes.404 %}
+                    <article class="main-article post-preview">
+                        <header class="post-preview-header">
+                            <a class="post-preview-link" href="{{ p.url }}">
+                                <h2 style="margin-top: 0;">{{ p.header.title }}</h2>
+                            </a>
+                            {% if p.header.authors or p.header.date %}
+                                <div class="post-details">
+                                    {% if p.header.authors %}{% for author, website in p.header.authors %}<b>{{ author|e }}</b>{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}
+                                    <br>
+                                    {% if p.header.date %}{{ p.header.date|e|date("Y-m-d H:i") }}{% endif %}
+                                </div>
+                            {% endif %}
+                        </header>
+                        {% set preview_summary = (p.header.description) ? p.header.description : p.summary|raw %}
+                        <section class="post-preview-summary">
+                            {% if preview_summary %}<p>{{ preview_summary|raw }}</p>{% endif %}
+                            <a class="post-preview-link" href="{{ p.url }}">
+                                <button>{{ page.header.view_post_button.text ? page.header.view_post_button.text : 'View Post →' }}</button>
+                            </a>
+                        </section>
+                        {% set preview_image = (p.header.main_image) ? p.header.main_image|slice(1) : (p.media.images|first).url|e %}
+                        {% if preview_image %}
+                            <section class="post-preview-image">
+                                <a class="post-preview-link" href="{{ p.url }}">
+                                    <img class="size-fw" src="{{ preview_image }}">
+                                </a>
+                            </section>
+                        {% endif %}
+                    </article>
+                {% endif %}
+            {% endfor %}
+        </main>
+        {% if sidebar_enabled %}
+            {% include 'partials/sidebar.html.twig' %}
+        {% endif %}
+    </div>
+{% endblock %}
