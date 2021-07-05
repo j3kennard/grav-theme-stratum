@@ -1,7 +1,7 @@
-{% macro loop(pages) %}
-    {% for p in pages.children.visible %}
+{% macro loop(page) %}
+    {% for p in page.children.visible %}
         {% set page_active_class = (p.active) ? ' navbar-item-active' : '' %}
-        {% if p.children.visible.count > 0 %}
+        {% if p.children.visible.count > 0 and theme.general.navbar_dropdown.enabled %}
             <div class="navbar-dropdown">
                 <a class="navbar-item{{ page_active_class|e }}" href="{{ p.url|e }}">
                     {% if p.header.icon %}<i class="fa fa-{{ p.header.icon|e }}"></i>{% endif %}
@@ -17,6 +17,12 @@
                 {{ p.menu|e }}
             </a>
         {% endif %}
+    {% endfor %}
+    {% for mitem in site.menu %}
+        <a class="navbar-item" href="{{ mitem.url|e }}">
+            {% if mitem.icon %}<i class="fa fa-{{ mitem.icon|e }}"></i>{% endif %}
+            {{ mitem.text|e }}
+        </a>
     {% endfor %}
 {% endmacro %}
 
@@ -38,22 +44,7 @@
             <span class="navbar-toggle-button"><i class="fas fa-bars"></i></span>
         </div>
         <div class="navbar-items">
-            {% if theme.general.navbar_dropdown.enabled %}
-                {{ _self.loop(pages) }}
-            {% else %}
-                {% for page in pages.children.visible %}
-                    <a class="navbar-item" href="{{ page.url|e }}">
-                        {% if page.header.icon %}<i class="fa fa-{{ page.header.icon|e }}"></i>{% endif %}
-                        {{ page.menu|e }}
-                    </a>
-                {% endfor %}
-            {% endif %}
-            {% for mitem in site.menu %}
-                <a class="navbar-item" href="{{ mitem.url|e }}">
-                    {% if mitem.icon %}<i class="fa fa-{{ mitem.icon|e }}"></i>{% endif %}
-                    {{ mitem.text|e }}
-                </a>
-            {% endfor %}
+            {{ _self.loop(pages) }}
         </div>
     </nav>
 </div>
