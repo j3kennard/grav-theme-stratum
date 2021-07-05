@@ -7,7 +7,7 @@
         <main class="{{ main_class }}">
             {% if page.header.title or page.header.description or page.content %}
                 {% set header_image = (page.header.main_image) ? page.header.main_image|slice(1) : (page.media.images|first).url|e %}
-                <header class="feed-header" {% if header_image or page.header.header_text_color %}style="{% if header_image %}background: url('{{ header_image }}') no-repeat center; background-position: absolute; background-size: cover; {% endif %}{{ (page.header.header_text_color) ? 'color: ' ~ page.header.header_text_color }}"{% endif %}>
+                <header class="feed-header" {% if header_image or page.header.header_text_color %}style="{% if page.header.main_image %}background: url('{{ header_image }}') no-repeat center; background-position: absolute; background-size: cover; {% endif %}{{ (page.header.header_text_color) ? 'color: ' ~ page.header.header_text_color }}"{% endif %}>
                     {% if page.header.title %}<h1>{{ page.header.title }}</h1>{% endif %}
                     {% if page.header.tagline %}<div class="feed-tagline">{{ page.header.tagline }}</div>{% endif %}
                     {% if page.content %}
