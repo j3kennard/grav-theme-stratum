@@ -1,5 +1,5 @@
-{% macro loop(page) %}
-    {% for p in page.children.visible %}
+{% macro loop(pages) %}
+    {% for p in pages.children.visible %}
         {% set page_active_class = (p.active) ? ' navbar-item-active' : '' %}
         {% if p.children.visible.count > 0 and theme.general.navbar_dropdown.enabled %}
             <div class="navbar-dropdown">
