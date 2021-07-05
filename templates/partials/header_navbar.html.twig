@@ -1,4 +1,4 @@
-{% macro loop(pages) %}
+{% macro loop(pages, theme) %}
     {% for p in pages.children.visible %}
         {% set page_active_class = (p.active) ? ' navbar-item-active' : '' %}
         {% if p.children.visible.count > 0 and theme.general.navbar_dropdown.enabled %}
@@ -44,7 +44,7 @@
             <span class="navbar-toggle-button"><i class="fas fa-bars"></i></span>
         </div>
         <div class="navbar-items">
-            {{ _self.loop(pages) }}
+            {{ _self.loop(pages, theme) }}
         </div>
     </nav>
 </div>
