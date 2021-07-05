@@ -1,7 +1,7 @@
-{% macro loop(pages, theme) %}
+{% macro loop(pages, config) %}
     {% for p in pages.children.visible %}
         {% set page_active_class = (p.active) ? ' navbar-item-active' : '' %}
-        {% if p.children.visible.count > 0 and theme.general.navbar_dropdown.enabled %}
+        {% if p.children.visible.count > 0 and config.theme.general.navbar_dropdown.enabled %}
             <div class="navbar-dropdown">
                 <a class="navbar-item{{ page_active_class|e }}" href="{{ p.url|e }}">
                     {% if p.header.icon %}<i class="fa fa-{{ p.header.icon|e }}"></i>{% endif %}
@@ -18,7 +18,7 @@
             </a>
         {% endif %}
     {% endfor %}
-    {% for mitem in site.menu %}
+    {% for mitem in config.site.menu %}
         <a class="navbar-item" href="{{ mitem.url|e }}">
             {% if mitem.icon %}<i class="fa fa-{{ mitem.icon|e }}"></i>{% endif %}
             {{ mitem.text|e }}
@@ -38,13 +38,13 @@
                 {% endif %}
             </a>
 
-            <a class="navbar-title" href="{{ home_url }}">{{ config.site.title|e }}</a>
+            <a class="navbar-title" href="{{ home_url }}">{{ site.title|e }}</a>
         </div>
         <div class="navbar-toggler">
             <span class="navbar-toggle-button"><i class="fas fa-bars"></i></span>
         </div>
         <div class="navbar-items">
-            {{ _self.loop(pages, theme) }}
+            {{ _self.loop(pages, config) }}
         </div>
     </nav>
 </div>
